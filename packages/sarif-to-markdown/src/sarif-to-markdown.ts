@@ -83,10 +83,7 @@ export const sarifToMarkdown = (options: sarifFormatterOptions): (sarifLog: Log)
             // Vulnerability info
             // ## Results
             // Result(s)
-            /**
-             * # Rule Info
-             */
-            const ruleInfo = escapeMarkdown`\
+            escapeMarkdown`\
 ## Rules
 <!-- Rule Info -->
 ${run.tool.driver?.rules?.map(rule => {
@@ -98,15 +95,15 @@ ${run.tool.driver?.rules?.map(rule => {
                 }
             )}
  `;
-            const ruleDetails = `<details><summary>Details</summary>
+            `<details><summary>Details</summary>
 <pre>${JSON.stringify(run.tool, null, 4)}</pre></details>`;
             /* Results
-            - rule id
-            - message
-            - vulnerability source location
+                        - rule id
+                        - message
+                        - vulnerability source location
 
-            If pass the scan, results is empty array
-            */
+                        If pass the scan, results is empty array
+                        */
             const results = run.results && run.results.length > 0 ? `
 ## Results
 
@@ -124,7 +121,7 @@ No Error
 
 `
             return {
-                body: title + ruleInfo + "\n" + ruleDetails + "\n" + results,
+                body: `${title}\n${results}`,
                 hasMessages: run.results?.length !== 0
             };
         });
